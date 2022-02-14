@@ -185,12 +185,20 @@ int runlow(std::string filename)
 		return 1;
 	}
 	
-	int lc = 1; // line counter
+	int lc = 0; // line counter
 	
 	while(!in.eof())
 	{
+		lc++; // increment line
+		
 		std::string line = "";
 		std::getline(in, line);
+		
+		// print debug lines
+		if(DEBUG)
+		{
+			std::cout << "\tDEBUG(" << lc << "): " << line << std::endl;
+		}
 		
 		// manage comments
 		int compos = 0;
@@ -391,7 +399,6 @@ int runlow(std::string filename)
 			cleanup(i, f, d);
 			return 1;
 		}
-		lc++;
 	}
 	in.close();
 	

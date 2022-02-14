@@ -1,4 +1,6 @@
-reg d0 5
-in d1
-dIv d0 d1
-ouT d0
+in i0
+out i0
+in i1
+out i1
+add i0 i1
+out i0
