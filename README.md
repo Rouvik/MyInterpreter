@@ -1,12 +1,13 @@
-# Todo list for VM.cpp
+# LowCode
+A simple procedural programming language
 
 ## Format of commands:
-+ <INSTRUCTION> <REGISTER TO EDIT> <VALUE>  
++ [INSTRUCTION] [REGISTER TO EDIT] [VALUE]  
 <VALUE> may be optional in commands  
   
-+ OUT --> OUT <VALUE OR REGISTER>  
++ OUT -> OUT [VALUE OR REGISTER]  
   
-+ EXIT --> EXIT <VALUE>  
++ EXIT -> EXIT [VALUE]  
 <VALUE> either 0 or 1  
 
 
