@@ -2,13 +2,13 @@
 A simple procedural programming language
 
 ## Format of commands:
-+ [INSTRUCTION] [REGISTER TO EDIT] [VALUE]  
-<VALUE> may be optional in commands  
++ \<INSTRUCTION\> \<REGISTER TO EDIT\> \<VALUE\>  
+\<VALUE\> may be optional in commands  
   
-+ OUT -> OUT [VALUE OR REGISTER]  
++ OUT -> OUT \<VALUE OR REGISTER\>  
   
-+ EXIT -> EXIT [VALUE]  
-<VALUE> either 0 or 1  
++ EXIT -> EXIT \<VALUE\>  
+\<VALUE\> either 0 or 1  
 
 
 ## Registers:  
