@@ -27,14 +27,37 @@ but must follow the rules of certain commands
 ## Instructions:
 |Name|Definition|Errors thrown|
 |----|----------|-------------|
-|REG|Registers a value in memory|NOREG, BADVAL|
-|IN|Refers to stdin and is used to take input from user and store a particular value in a register|NOREG, BADIN|
+|REG|Registers a value in memory|[NOREG](#noreg), [BADVAL](#badval)|
+|IN|Refers to stdin and is used to take input from user and store a particular value in a register|[NOREG](#noreg), [BADIN](#badin)|
 |OUT|Refers to stdout and is used to take value from a register or raw value and print it in stdout|```null```|
 |ADD|Takes a register and a value to add to the register|```null```|
 |SUB|Same as ADD but subtracts value|```null```|
 |MULT|Same as ADD but multiplies value|```null```|
-|DIV|Same as ADD but divides value|DIV0 -> If value = 0 terminates program and writes `DIV0` error in stdout|
-|EXIT|Used to exit from code, the only command to take a value 0 or 1 but no register|BADEXIT -> Anything else leads to `BADEXIT` with line number printed|
+|DIV|Same as ADD but divides value|[DIV0](#div0)|
+|EXIT|Used to exit from code, the only command to take a value 0 or 1 but no register|[BADEXIT](#badexit)|
+|IFGT|Run the next line only if the value 1 greater than value 2|[NOREG](#noreg)|
+|IFLT|Run the next line only if the value 1 less than value 2|[NOREG](#noreg)|
+|IFEQ|Run the next line only if the value 1 equal to value 2|[NOREG](#noreg)|
+
+## Errors:
+### BADEXIT
+Thrown when program exits with exit code 1  
+ie, there is some error in program  
+
+### BADIN
+Thrown when illegal input is passed  
+ie, [a-z, A-Z or any other ascii character except 0-9]  
+
+### NOREG
+Thrown when the requested reguster doensnot exists  
+
+### BADVAL
+Thrown when the value in code is not a number  
+Example: reg i0 ```hello```  
+Here ```hello``` is not a number  
+
+### DIV0
+Thrown when program wants to divide a number by 0  
 
 ## Comment:
 LowCode only supports `;` as single line comments

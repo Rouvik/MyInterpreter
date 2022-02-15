@@ -37,10 +37,10 @@ double getRegValue(std::string regname, int *i, float *f, double *d)
 	
 	if(regname[0] == 'i')
 	{
-		return i[regid];
+		return (double) i[regid];
 	} else if(regname[0] == 'f')
 	{
-		return f[regid];
+		return (double) f[regid];
 	} else if(regname[0] == 'd')
 	{
 		return d[regid];
@@ -62,10 +62,10 @@ double getRegValueF(std::string regname, int *i, float *f, double *d)
 	
 	if(regname[0] == 'i')
 	{
-		return i[regid];
+		return (double) i[regid];
 	} else if(regname[0] == 'f')
 	{
-		return f[regid];
+		return (double) f[regid];
 	} else if(regname[0] == 'd')
 	{
 		return d[regid];
@@ -365,6 +365,96 @@ int runlow(std::string filename)
 				}
 				
 				setRegValue(regname, (getRegValueF(regname, i, f, d) / toDiv), i, f, d);
+			}
+			
+			else if(cmd == "IFEQ")
+			{
+				std::string regname, value;
+				if(!(tokens >> regname))
+				{
+					std::cout << "NOREG: Reg not provided\n";
+					throw 1;
+				}
+				
+				if(!(tokens >> value))
+				{
+					std::cout << "BADVAL: Value not provided\n";
+					throw 1;
+				}
+				
+				// skip line if not equal
+				if(getRegValueF(regname, i, f, d) != getRegValue(value, i, f, d))
+				{
+					getline(in, line);
+					
+					// print debug lines
+					if(DEBUG)
+					{
+						std::cout << "\tDEBUG(" << lc << ")[ignored]: " << line << std::endl;
+					}
+				}
+			}
+			
+			else if(cmd == "IFGT")
+			{
+				std::string regname, value;
+				if(!(tokens >> regname))
+				{
+					std::cout << "NOREG: Reg not provided\n";
+					throw 1;
+				}
+				
+				if(!(tokens >> value))
+				{
+					std::cout << "BADVAL: Value not provided\n";
+					throw 1;
+				}
+				
+				double x = getRegValueF(regname, i, f, d),
+				       y = getRegValue(value, i, f, d);
+				
+				// skip line if not greater than
+				if((x == y) || (x < y))
+				{
+					getline(in, line);
+					
+					// print debug lines
+					if(DEBUG)
+					{
+						std::cout << "\tDEBUG(" << lc << ")[ignored]: " << line << std::endl;
+					}
+				}
+			}
+			
+			else if(cmd == "IFLT")
+			{
+				std::string regname, value;
+				if(!(tokens >> regname))
+				{
+					std::cout << "NOREG: Reg not provided\n";
+					throw 1;
+				}
+				
+				if(!(tokens >> value))
+				{
+					std::cout << "BADVAL: Value not provided\n";
+					throw 1;
+				}
+				
+				double x = getRegValueF(regname, i, f, d),
+				       y = getRegValue(value, i, f, d);
+				
+				// skip line if not less than
+				if((x == y) || (x > y))
+				{
+					getline(in, line);
+					
+					// print debug lines
+					if(DEBUG)
+					{
+						std::cout << "\tDEBUG(" << lc << ")[ignored]: " << line << std::endl;
+					}
+				}
 			}
 			
 			// exits from the program
