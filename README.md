@@ -38,6 +38,8 @@ but must follow the rules of certain commands
 |IFGT|Run the next line only if the value 1 greater than value 2|[NOREG](#noreg)|
 |IFLT|Run the next line only if the value 1 less than value 2|[NOREG](#noreg)|
 |IFEQ|Run the next line only if the value 1 equal to value 2|[NOREG](#noreg)|
+|IFLE|Run next line if the value 1 <= value 2|[NOREG](#noreg)|
+|IFGE|Run next line if the value 1 >= value 2|[NOREG](#noreg)|
 
 ## Errors:
 ### BADEXIT

@@ -15,156 +15,13 @@
 #include <fstream>
 #include <sstream>
 
+// NOTE: Helper uses them so declare them before
 // limit for registers
 int REGLIMIT = 8;
 bool DEBUG = false;
 
-// gets a register value or number
-double getRegValue(std::string regname, int *i, float *f, double *d)
-{
-	int regid = 0;
-	if(regname.length() > 1) // avoid substring of single digits
-	{
-		regid = std::stoi(regname.substr(1));
-	}
-	
-	if(regid > REGLIMIT)
-	{
-		std::cout << "NOREG: reg \'" << regname << "\' doesnot exists\n";
-		throw 1;
-	}
-	
-	
-	if(regname[0] == 'i')
-	{
-		return (double) i[regid];
-	} else if(regname[0] == 'f')
-	{
-		return (double) f[regid];
-	} else if(regname[0] == 'd')
-	{
-		return d[regid];
-	} else {
-		return std::stod(regname);
-	}
-}
-
-// gets a register value
-double getRegValueF(std::string regname, int *i, float *f, double *d)
-{
-	int regid = std::stoi(regname.substr(1));
-	if(regid > REGLIMIT)
-	{
-		std::cout << "NOREG: reg \'" << regname << "\' doesnot exists\n";
-		throw 1;
-	}
-	
-	
-	if(regname[0] == 'i')
-	{
-		return (double) i[regid];
-	} else if(regname[0] == 'f')
-	{
-		return (double) f[regid];
-	} else if(regname[0] == 'd')
-	{
-		return d[regid];
-	} else {
-		std::cout << "NOREG: reg \'" << regname << "\' doesnot exists\n";
-		throw 1;
-	}
-}
-
-// sets a register value
-void setRegValue(std::string regname, std::string value, int *i, float *f, double *d)
-{
-	int regid = std::stoi(regname.substr(1));
-	if(regid > REGLIMIT)
-	{
-		std::cout << "NOREG: reg \'" << regname << "\' doesnot exists\n";
-		throw 1;
-	}
-	
-	
-	if(regname[0] == 'i')
-	{
-		i[regid] = std::stoi(value);
-	} else if(regname[0] == 'f')
-	{
-		f[regid] = std::stof(value);
-	} else if(regname[0] == 'd')
-	{
-		d[regid] = std::stod(value);
-	} else {
-		std::cout << "NOREG: reg \'" << regname << "\' doesnot exists\n";
-		throw 1;
-	}
-}
-
-void setRegValue(std::string regname, double value, int *i, float *f, double *d)
-{
-	int regid = std::stoi(regname.substr(1));
-	if(regid > REGLIMIT)
-	{
-		std::cout << "NOREG: reg \'" << regname << "\' doesnot exists\n";
-		throw 1;
-	}
-	
-	
-	if(regname[0] == 'i')
-	{
-		i[regid] = (int) value;
-	} else if(regname[0] == 'f')
-	{
-		f[regid] = (float) value;
-	} else if(regname[0] == 'd')
-	{
-		d[regid] = value;
-	} else {
-		std::cout << "NOREG: reg \'" << regname << "\' doesnot exists\n";
-		throw 1;
-	}
-}
-
-// display the register values for debugging
-void viewReg(int *i, float *f, double *d)
-{
-	if(!DEBUG) return; // dont show if debug is off
-	
-    int len = 8;
-    std::cout << "i: ";
-	for(int k = 0; k < len; k++)
-	{
-		std::cout << "(" << k << "->" << i[k] << ") ";
-	}
-	
-	std::cout << std::endl << "f: ";
-	
-	for(int k = 0; k < len; k++)
-	{
-		std::cout << "(" << k << "->" << f[k] << ") ";
-	}
-	
-	std::cout << std::endl << "d: ";
-	
-	for(int k = 0; k < len; k++)
-	{
-		std::cout << "(" << k << "->" << d[k] << ") ";
-	}
-	
-	std::cout << std::endl;
-}
-
-// cleanup the memory at exit
-void cleanup(int *i, float *f, double *d)
-{
-	viewReg(i, f, d);
-	
-    // cleanup memory
-	std::free(i);
-	std::free(f);
-	std::free(d);
-}
+// helper functions
+#include "helper.hpp"
 
 // driver of interpreter code
 int runlow(std::string filename)
@@ -201,6 +58,11 @@ int runlow(std::string filename)
 		}
 		
 		// manage comments
+		if(line[0] == ';') // dont process empty lines
+		{
+			continue;
+		}
+		
 		int compos = 0;
 		if((compos = line.find(';')) > -1)
 		{
@@ -212,10 +74,7 @@ int runlow(std::string filename)
 			// interpreted code
 			std::istringstream tokens(line);
 			std::string cmd;
-			if(!(tokens >> cmd))
-			{
-				throw 1;
-			}
+			tokens >> cmd;
 			
 			// always convert to uppercase
 			for(short i = 0; i < cmd.length(); i++)
@@ -390,7 +249,7 @@ int runlow(std::string filename)
 					// print debug lines
 					if(DEBUG)
 					{
-						std::cout << "\tDEBUG(" << lc << ")[ignored]: " << line << std::endl;
+						std::cout << "\tDEBUG[ignored]: " << line << std::endl;
 					}
 				}
 			}
@@ -421,7 +280,7 @@ int runlow(std::string filename)
 					// print debug lines
 					if(DEBUG)
 					{
-						std::cout << "\tDEBUG(" << lc << ")[ignored]: " << line << std::endl;
+						std::cout << "\tDEBUG[ignored]: " << line << std::endl;
 					}
 				}
 			}
@@ -452,10 +311,91 @@ int runlow(std::string filename)
 					// print debug lines
 					if(DEBUG)
 					{
-						std::cout << "\tDEBUG(" << lc << ")[ignored]: " << line << std::endl;
+						std::cout << "\tDEBUG[ignored]: " << line << std::endl;
 					}
 				}
 			}
+			
+			else if(cmd == "IFLE")
+			{
+				std::string regname, value;
+				if(!(tokens >> regname))
+				{
+					std::cout << "NOREG: Reg not provided\n";
+					throw 1;
+				}
+				
+				if(!(tokens >> value))
+				{
+					std::cout << "BADVAL: Value not provided\n";
+					throw 1;
+				}
+				
+				double x = getRegValueF(regname, i, f, d),
+				       y = getRegValue(value, i, f, d);
+				
+				// skip line if not less than
+				if(x > y)
+				{
+					getline(in, line);
+					
+					// print debug lines
+					if(DEBUG)
+					{
+						std::cout << "\tDEBUG[ignored]: " << line << std::endl;
+					}
+				}
+			}
+			
+			else if(cmd == "IFGE")
+			{
+				std::string regname, value;
+				if(!(tokens >> regname))
+				{
+					std::cout << "NOREG: Reg not provided\n";
+					throw 1;
+				}
+				
+				if(!(tokens >> value))
+				{
+					std::cout << "BADVAL: Value not provided\n";
+					throw 1;
+				}
+				
+				double x = getRegValueF(regname, i, f, d),
+				       y = getRegValue(value, i, f, d);
+				
+				// skip line if not less than
+				if(x < y)
+				{
+					getline(in, line);
+					
+					// print debug lines
+					if(DEBUG)
+					{
+						std::cout << "\tDEBUG[ignored]: " << line << std::endl;
+					}
+				}
+			}
+			
+			else if(cmd == "JMP")
+			{
+				std::string lineTo, garbage;
+				if(!(tokens >> lineTo))
+				{
+					std::cout << "NOREG: Reg not provided\n";
+				}
+				
+				in.seekg(0); // get to beginning
+				int toJump = (int) getRegValue(lineTo, i, f, d);
+				for(int k = 1; k < toJump; k++)
+				{
+					std::getline(in, garbage); // garbage lines to be deleted
+				}
+				
+				lc = toJump; // reset line number
+			}
+				
 			
 			// exits from the program
 			else if(cmd == "EXIT")
@@ -508,17 +448,33 @@ int main()
 	{
 		std::cout << "$ ";
 		std::getline(std::cin, command);
-		if(command == "exit")
+		std::istringstream cmdstream(command);
+		
+		std::string cmd; // contains actual command
+		cmdstream >> cmd;
+		if(cmd == "exit")
 		{
 			std::cout << "Terminating...";
 			return 0;
-		} else if(command.substr(0, 3) == "run") // runs a code by calling runlow
+		} else if(cmd == "run") // runs a code by calling runlow
 		{
-			runlow(command.substr(4));
-		} else if(command.substr(0, 1) == "!") // run system commands
+			std::string filename;
+			if(!(cmdstream >> filename))
+			{
+				std::cout << "Error no filename provided\n";
+				continue;
+			}
+			
+			runlow(filename);
+		} else if(cmd == "!") // run system commands
 		{
-			system(command.substr(1).c_str());
-		} else if(command.substr(0, 5) == "debug")
+			if(command.length() > 1)
+			{
+				system(command.substr(1).c_str());
+			} else {
+				std::cout << "Error no arguments\n";
+			}
+		} else if(cmd == "debug")
 		{
 			DEBUG = !DEBUG;
 			if(DEBUG)
