@@ -40,6 +40,7 @@ but must follow the rules of certain commands
 |IFEQ|Run the next line only if the value 1 equal to value 2|[NOREG](#noreg)|
 |IFLE|Run next line if the value 1 <= value 2|[NOREG](#noreg)|
 |IFGE|Run next line if the value 1 >= value 2|[NOREG](#noreg)|
+|JMP|Jumps to a particular line number, can take both registers and raw number|[NOREG](#noreg)|
 
 ## Errors:
 ### BADEXIT
