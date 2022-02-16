@@ -1,5 +1,5 @@
 ; prints fibonaccci upto 144
-
+      
 reg i0 1 ; int a, int b and c already 0
 reg i3 1 ; iterator i
 

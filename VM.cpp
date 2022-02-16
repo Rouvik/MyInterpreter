@@ -76,6 +76,12 @@ int runlow(std::string filename)
 			std::string cmd;
 			tokens >> cmd;
 			
+			// ignore if no command
+			if(cmd == "")
+			{
+				continue;
+			}
+			
 			// always convert to uppercase
 			for(short i = 0; i < cmd.length(); i++)
 			{
@@ -420,6 +426,9 @@ int runlow(std::string filename)
 				} else {
 					throw 0;
 				}
+			} else {
+				std::cout << "BADCMD: Unknown command " << cmd << std::endl;
+				throw 1;
 			}
 			
 		} catch(...)
@@ -436,8 +445,14 @@ int runlow(std::string filename)
 	viewReg(i, f, d);
 }
 
-int main()
+int main(int argc, char const** argv)
 {
+	// if file provided run it and return exit code
+	if(argc > 1)
+	{
+		return runlow(argv[1]);
+	}
+	
 	// intro
 	std::cout << "Welcome to LowCode virtual machine!" << std::endl
 	     << "Type in \"run <filename>\" to run a program" << std::endl;
