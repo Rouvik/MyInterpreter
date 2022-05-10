@@ -63,10 +63,10 @@ Here ```hello``` is not a number
 Thrown when program wants to divide a number by 0  
 
 ## Comment:
-LowCode only supports `;` as single line comments
+LowCode only supports `#` as single line comments
 
 # Installation:
-+ First download the files using git clone "repourl"
++ First download the files using git clone "https://github.com/Rouvik/MyInterpreter.git"
 + make a new directory
 + run cmake in the new directory with path to download directory
 + run ./lowcc to run the program

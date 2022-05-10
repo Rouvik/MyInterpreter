@@ -58,13 +58,13 @@ int runlow(std::string filename)
 		}
 		
 		// manage comments
-		if(line[0] == ';') // dont process empty lines
+		if(line[0] == '#') // dont process empty lines
 		{
 			continue;
 		}
 		
 		int compos = 0;
-		if((compos = line.find(';')) > -1)
+		if((compos = line.find('#')) > -1)
 		{
 			line = line.substr(0, compos);
 		}

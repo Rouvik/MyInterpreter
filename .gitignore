@@ -1,0 +1,8 @@
+# ignore the executable
+lowcc
+# ignore cmake
+CMake*
+# dont ignore CMakeLists.txt itself
+!CMakeLists.txt
+# ignore makefile
+Makefile
