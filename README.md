@@ -52,7 +52,7 @@ Thrown when illegal input is passed
 ie, [a-z, A-Z or any other ascii character except 0-9]  
 
 ### NOREG
-Thrown when the requested reguster doensnot exists  
+Thrown when the requested register doensnot exists  
 
 ### BADVAL
 Thrown when the value in code is not a number  
