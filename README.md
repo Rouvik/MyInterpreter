@@ -1,5 +1,5 @@
 # LowCode
-A simple procedural programming language
+A simple procedure oriented programming language
 
 ## Format of commands:
 + \<INSTRUCTION\> \<REGISTER TO EDIT\> \<VALUE\>  
